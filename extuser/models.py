@@ -19,6 +19,7 @@ class UserProfile(models.Model):
     confirm_code_phone = models.IntegerField('Код подтверждения телефона', default=None, blank=True, null=True)
     confirm_phone = models.CharField('Подтверждаемый телефон', max_length=20, default=None, null=True, blank=True)
     confirm_code_phone_ts = models.DateTimeField('Дата и время кода подтверждения телефона', auto_now_add=True, blank=True, null=True)
+    agent_id = models.IntegerField(verbose_name=u'Контрагент', default=None, null=True, blank=True)
     def __str__(self):
         return self.user.username
 
