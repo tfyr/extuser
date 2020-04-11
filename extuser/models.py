@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -32,3 +34,27 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+
+
+class Smsconfirm(models.Model):
+    class Meta:
+        verbose_name = "СМС подтверждение"
+        verbose_name_plural = "СМС подтверждения"
+    session_key = models.CharField('сессия', max_length=128, default=None, null=True, blank=True, )
+    creation = models.DateTimeField('создание', null=False, default=datetime.datetime.now, blank=False )
+    phone = models.CharField('Телефон', max_length=11, default=None, null=True, blank=True, )
+    smscode = models.CharField('sms код', max_length=6, default=None, null=True, blank=True, )
+    checked = models.BooleanField(verbose_name="checked", null=False, blank=False, default=False)
+    check_count = models.IntegerField(verbose_name="Попыток", default=0,)
+
+
+class RestorePswdByEmail(models.Model):
+    class Meta:
+        verbose_name = "Восстановление пароля по Email"
+        verbose_name_plural = "Восстановление пароля по Email"
+    session_key = models.CharField('сессия', max_length=128, default=None, null=True, blank=True, )
+    creation = models.DateTimeField('создание', null=False, default=datetime.datetime.now, blank=False )
+    login = models.CharField('Логин', max_length=128, default=None, null=True, blank=True, )
+    code = models.CharField('Код', max_length=255, default=None, null=True, blank=True, )
+    checked = models.BooleanField(verbose_name="checked", null=False, blank=False, default=False)
+    check_count = models.IntegerField(verbose_name="Попыток", default=0,)
